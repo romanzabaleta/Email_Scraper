@@ -10,8 +10,8 @@ import pandas as pd
 ########################
 
 #Function for errors
-def coolio(ron,k):
-        if ron in str(k):
+def a_filter(a_entry,a_line):
+        if a_entry in str(a_line):
                 return True
         else:
                 return False
@@ -21,7 +21,7 @@ def coolio(ron,k):
 
 #Input commands, sets, lists, & variables
 UrL = str(input('Enter a URL:'))
-q = input('Name of Excel Doc:')
+edocn = input('Name of Excel Doc:')
 lng = input('Number of pages to visit:')
 look = input('Keyterm to avoid:')
 
@@ -63,17 +63,17 @@ for i in range(0,int(lng)):
         # extract link url from the anchor
         link = anchor.attrs["href"] if "href" in anchor.attrs else ''
         # resolve relative links
-        if coolio(".jpg", link) is True:
+        if a_filter(".jpg", link) is True:
                 link = UrL
-        elif coolio("facebook", link) is True:
+        elif a_filter("facebook", link) is True:
                 link = UrL
-        elif coolio(".png", link) is True:
+        elif a_filter(".png", link) is True:
                 link = UrL
-        elif coolio(".pdf", link) is True:
+        elif a_filter(".pdf", link) is True:
                 link = UrL
-        elif coolio(".doc", link) is True:
+        elif a_filter(".doc", link) is True:
                 link = UrL
-        elif coolio(str(look), link) is True:
+        elif a_filter(str(look), link) is True:
                 link = UrL
         elif link.startswith('/'):
                 link = base_url + link
@@ -82,25 +82,19 @@ for i in range(0,int(lng)):
         # add the new url to the queue if it was not enqueued nor processed yet
         if not link in new_urls and not link in processed_urls:
                 new_urls.append(link)
-
 ###########################
-###########################
-                
+###########################     
 email_list = pd.DataFrame(emails,processed_urls)
 print(email_list)
 ##########################
 ##########################
-
-writer = pd.ExcelWriter(str(q)+'.xlsx', engine='xlsxwriter')
-
 # Convert the dataframe to an XlsxWriter Excel object.
+writer = pd.ExcelWriter(str(edocn)+'.xlsx', engine='xlsxwriter')
 email_list.to_excel(writer, sheet_name='Emails')
-
-# Close the Pandas Excel writer and output the Excel file.
 writer.save()
-
 ##########################
 ##########################
+#End option
 for i in range(0,10):
         ans = input("Type 'y' to exit:_")
         if ans is 'y':
