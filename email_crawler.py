@@ -78,7 +78,7 @@ for i in range(0, len(e_list)):
                         # resolve relative links
                         for i in range(0, len(issue)):
                                 if a_filter(issue[i], link) is True:
-                                        link = Ur
+                                        link = ''
                         if link.startswith('/'):
                                 link = base_url + link
                         elif not link.startswith('http'):
