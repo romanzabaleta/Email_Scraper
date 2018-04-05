@@ -19,8 +19,8 @@ def a_filter(a_entry,a_line):
 
 ########################
 ########################
- 
-df = pd.read_excel('SE Emails.xlsx', sheetname='Tutor Emails')
+listofurls = input('''Name of the url list file: ''')
+df = pd.read_excel( str(listofurls) + '.xlsx', sheetname='Tutor Emails')
 te = df['Tutor Emails']
 e_list = []
 for i in range(0, len(te)):
@@ -31,9 +31,9 @@ print('The length of excel sheet read is ' + str(len(e_list)))
 ########################
 
 #Input commands, sets, lists, & variables
-edocn = 'Rawdata'
-lng = input('Number of pages to visit:')
-look = input('Keyterm to avoid(click enter is not necessary:')
+edocn = input('What will the output doc name be: ')
+lng = input('Number of pages to visit: ')
+look = input('Keyterm to avoid (click enter if not necessary): ')
 # List of emails found
 emails = []
 # URLs already crawled
@@ -59,11 +59,11 @@ for i in range(0, len(e_list)):
                     # get url's content
                     print("Processing "+ str(url))
                     try:
-                        response = requests.get(url)
+                            response = requests.get(url)
                     except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
-                        # ignore page errors
-                        emails.append({'error in page'})
-                        continue 
+                            processed_urls.remove(url)
+                            response = None
+                            continue
                     # get all email addresses and add to set
                     new_emails = set(re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", response.text, re.I))
                     print(new_emails)        
@@ -86,6 +86,12 @@ for i in range(0, len(e_list)):
                         # add the new url to the queue if it was not enqueued nor processed yet
                         if not link in new_urls and not link in processed_urls:
                                 new_urls.append(link)
+                if(len(emails) != len(processed_urls)):
+                        emails.remove(new_emails)
+                if(len(emails) != len(processed_urls)):
+                        print(str(url)+'is causing an error')
+                        input('Delete URL and then run program again')
+
 ###########################
 ###########################
 print(emails)
