@@ -74,20 +74,12 @@ for i in range(0, len(e_list)):
                     for anchor in soup.find_all("a"):
                         # extract link url from the anchor
                         link = anchor.attrs["href"] if "href" in anchor.attrs else ''
+                        issue = ['.jpg', 'facebook', '.png', '.pdf', '.doc']
                         # resolve relative links
-                        if a_filter(".jpg", link) is True:
-                                link = ''
-                        elif a_filter("facebook", link) is True:
-                                link = ''
-                        elif a_filter(".png", link) is True:
-                                link = ''
-                        elif a_filter(".pdf", link) is True:
-                                link = ''
-                        elif a_filter(".doc", link) is True:
-                                link = ''
-                        elif a_filter(str(look), link) is True:
-                                link = ''
-                        elif link.startswith('/'):
+                        for i in range(0, len(issue)):
+                                if a_filter(issue[i], link) is True:
+                                        link = Ur
+                        if link.startswith('/'):
                                 link = base_url + link
                         elif not link.startswith('http'):
                                 link = path + link
