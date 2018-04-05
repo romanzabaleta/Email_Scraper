@@ -33,7 +33,7 @@ print('The length of excel sheet read is ' + str(len(e_list)))
 #Input commands, sets, lists, & variables
 edocn = 'Rawdata'
 lng = input('Number of pages to visit:')
-look = input('Keyterm to avoid:')
+look = input('Keyterm to avoid(click enter is not necessary:')
 # List of emails found
 emails = []
 # URLs already crawled
